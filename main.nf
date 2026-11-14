@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    sukhanovaxenia@gmail.com/nfcoreintro
+    sukhanovaxenia/nfcoreintro
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/sukhanovaxenia@gmail.com/nfcoreintro
+    Github : https://github.com/sukhanovaxenia/nfcoreintro
 ----------------------------------------------------------------------------------------
 */
 
@@ -38,7 +38,7 @@ params.fasta = getGenomeAttribute('fasta')
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow SUKHANOVAXENIA@GMAIL.COM_NFCOREINTRO {
+workflow SUKHANOVAXENIA_NFCOREINTRO {
 
     take:
     samplesheet // channel: samplesheet read in from --input
@@ -85,7 +85,7 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    SUKHANOVAXENIA@GMAIL.COM_NFCOREINTRO (
+    SUKHANOVAXENIA_NFCOREINTRO (
         PIPELINE_INITIALISATION.out.samplesheet
     )
     //
@@ -97,7 +97,7 @@ workflow {
         params.plaintext_email,
         params.outdir,
         params.monochrome_logs,
-        SUKHANOVAXENIA@GMAIL.COM_NFCOREINTRO.out.multiqc_report
+        SUKHANOVAXENIA_NFCOREINTRO.out.multiqc_report
     )
 }
 

@@ -34,7 +34,18 @@ workflow NFCOREINTRO {
     //
     FASTQC(ch_samplesheet)
     ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.map{ _meta, file -> file })
-
+    //
+    // Module for fastp
+    //
+    ch_samplesheet = ch_samplesheet.map { meta, reads -> [meta, reads, []]}
+    FASTP(
+        ch_samplesheet,
+        false,
+        false,
+        false
+    )
+    ch_trimmed_reads = FASTP.out.reads
+    ch_multiqc_files = ch_multiqc_files.mix(FASTP.out.json.map{ _meta, file -> file }) // without any info about file
     //
     // Collate and save software versions
     //

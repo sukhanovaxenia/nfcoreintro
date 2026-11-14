@@ -17,7 +17,7 @@ jobs:
       - name: Check PRs
         if: github.repository == 'sukhanovaxenia@gmail.com/nfcoreintro'
         env:
-          HEAD_REPO:  ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
         run: |
           { [[ "$HEAD_REPO" == sukhanovaxenia@gmail.com/nfcoreintro ]] && [[ $GITHUB_HEAD_REF == "dev" ]]; } || [[ $GITHUB_HEAD_REF == "patch" ]]
 
