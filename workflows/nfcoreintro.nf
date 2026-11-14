@@ -22,6 +22,8 @@ workflow NFCOREINTRO {
 
     take:
     ch_samplesheet // channel: samplesheet read in from --input
+    fasta
+    bwa_index
     multiqc_config
     multiqc_logo
     multiqc_methods_description
