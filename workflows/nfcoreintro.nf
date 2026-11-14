@@ -3,8 +3,10 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { FASTQC                 } from '../modules/nf-core/fastqc/main'
+// include { FASTQC                 } from '../modules/nf-core/fastqc/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
+include { FASTP                  } from '../modules/nf-core/fastp/main'
+include { BWA_MEM                } from '../modules/nf-core/bwa/mem/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -32,8 +34,8 @@ workflow NFCOREINTRO {
     //
     // MODULE: Run FastQC
     //
-    FASTQC(ch_samplesheet)
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.map{ _meta, file -> file })
+    // FASTQC(ch_samplesheet)
+    // ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.map{ _meta, file -> file })
     //
     // Module for fastp
     //
@@ -46,6 +48,16 @@ workflow NFCOREINTRO {
     )
     ch_trimmed_reads = FASTP.out.reads
     ch_multiqc_files = ch_multiqc_files.mix(FASTP.out.json.map{ _meta, file -> file }) // without any info about file
+    //
+    // BWA-MEM
+    //
+    BWA_MEM(
+        ch_trimmed_reads,
+        bwa_index,
+        fasta,
+        true
+    )
+    ch_bam = BWA_MEM.out.bam
     //
     // Collate and save software versions
     //
